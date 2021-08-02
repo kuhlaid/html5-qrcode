@@ -47,18 +47,22 @@ jobs:
       run: |
         npm install
         npm run-script build
+        git add -A -- /home/runner/work/html5-qrcode/html5-qrcode/dist/html5-qrcode.min.js
+        git -c user.useConfigOnly=true commit --quiet --allow-empty-message --file -
+        git push origin master:master
 
-    - name: Git Commit on Workflow
-      uses: matheusalbino/git-commit@v1.1.0
-      with:
-        # Github Token
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-#         # Git user.name
-#         user-name: Github Actions - Git Commit
-#         # Git user.email
-#         user-email: github-actions-git-commit@users.noreply.github.com
-        # Git message
-        message: This a commit from Github Actions (auto-build)
+
+#     - name: Git Commit on Workflow
+#       uses: matheusalbino/git-commit@v1.1.0
+#       with:
+#         # Github Token
+#         github-token: ${{ secrets.GITHUB_TOKEN }}
+# #         # Git user.name
+# #         user-name: Github Actions - Git Commit
+# #         # Git user.email
+# #         user-email: github-actions-git-commit@users.noreply.github.com
+#         # Git message
+#         message: This a commit from Github Actions (auto-build)
         
         ### this is not recognizing changes to commit
 #     - name: Git Auto Commit
