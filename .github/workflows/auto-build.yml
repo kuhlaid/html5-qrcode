@@ -27,6 +27,16 @@ jobs:
         npm install
         npm run-script build
         
-    - name: save updated files
-      run: |
-        git diff-index --quiet HEAD || (git commit -a -m'[bot] update files' --allow-empty && git push -f)
+    - name: Git Commit on Workflow
+      # You may pin to the exact commit or the version.
+      # uses: matheusalbino/git-commit@ec22539edac987513eb1787b652fb3375a200807
+      uses: kuhlaid/html5-qrcode@V2.0.12
+      with:
+        # Github Token
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        # Git user.name
+        user-name: Github Actions - Git Commit
+        # Git user.email
+        user-email: github-actions-git-commit@users.noreply.github.com
+        # Git message
+        message: This a commit from Github Actions (auto-build)
