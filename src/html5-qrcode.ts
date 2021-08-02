@@ -791,7 +791,7 @@ export class Html5Qrcode {
                         });
                 })
                 .catch((err) => {
-                    reject(`${err.name} : ${err.message}`);
+                    reject(JSON.stringify(err)); // reject(`${err.name} : ${err.message}`);
                 });
         });
     }
