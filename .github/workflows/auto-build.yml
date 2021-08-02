@@ -38,6 +38,8 @@ jobs:
       with:
         # Commit message
         commit_message: Apply automatic changes
+        commit_options: '--no-verify --signoff'
+        file_pattern: dist/html5-qrcode.min.js
         # Git branch name, where changes should be pushed too. Required if Action is used on the `pull_request` event
         branch: ${{ github.head_ref }}
         # Name used for the commit user
@@ -46,7 +48,7 @@ jobs:
         commit_user_email: actions@github.com
         # Value used for the commit author. Defaults to the username of whoever triggered this workflow run.
         commit_author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-        
+        repository: kuhlaid/html5-qrcode
         
 #       - name: Git Commit on Workflow
 #       uses: matheusalbino/git-commit@v1.1.0
