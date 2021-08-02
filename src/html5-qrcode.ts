@@ -39,7 +39,7 @@ import {
 type Html5QrcodeIdentifier = string | MediaTrackConstraints;
 
 class Constants extends Html5QrcodeConstants {
-    //#region static constants
+    //# scan region settings
     static DEFAULT_WIDTH = 300;
     static DEFAULT_WIDTH_OFFSET = 2;
     static FILE_SCAN_MIN_HEIGHT = 300;
@@ -52,7 +52,7 @@ class Constants extends Html5QrcodeConstants {
     static VERBOSE = false;
     static BORDER_SHADER_DEFAULT_COLOR = "#ffffff";
     static BORDER_SHADER_MATCH_COLOR = "rgb(90, 193, 56)";
-    //#endregion
+    //#endregion settings
 }
 
 /**
@@ -787,11 +787,11 @@ export class Html5Qrcode {
                             resolve(results);
                         })
                         .catch((err) => {
-                            reject(`${err.name} : ${err.message}`);
+                            reject(`Failed at navigator.mediaDevices.enumerateDevices() with: ${JSON.stringify(err)}`);
                         });
                 })
                 .catch((err) => {
-                    reject(JSON.stringify(err)); // reject(`${err.name} : ${err.message}`);
+                    reject(`Failed at getCamerasFromMediaDevices() with: ${JSON.stringify(err)}`); // reject(`${err.name} : ${err.message}`);
                 });
         });
     }
