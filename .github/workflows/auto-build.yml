@@ -28,9 +28,7 @@ jobs:
         npm run-script build
         
     - name: Git Commit on Workflow
-      # You may pin to the exact commit or the version.
-      # uses: matheusalbino/git-commit@ec22539edac987513eb1787b652fb3375a200807
-      uses: kuhlaid/html5-qrcode@V2.0.12
+      uses: matheusalbino/git-commit@v1.1.0
       with:
         # Github Token
         github-token: ${{ secrets.GITHUB_TOKEN }}
