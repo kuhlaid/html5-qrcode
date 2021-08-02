@@ -329,6 +329,8 @@ export class Html5Qrcode {
             configuration, this.logger);
         this.clearElement();
 
+        console.log('starting the scanner');    // #testmessage
+            
         // Check if videoConstraints is passed and valid
         let videoConstraintsAvailableAndValid = false;
         if (internalConfig.videoConstraints) {
