@@ -53,13 +53,12 @@ jobs:
       with:
         # Github Token
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        # Git user.name
-        user-name: Github Actions - Git Commit
-        # Git user.email
-        user-email: github-actions-git-commit@users.noreply.github.com
+#         # Git user.name
+#         user-name: Github Actions - Git Commit
+#         # Git user.email
+#         user-email: github-actions-git-commit@users.noreply.github.com
         # Git message
         message: This a commit from Github Actions (auto-build)
-        branch: master
         
         ### this is not recognizing changes to commit
 #     - name: Git Auto Commit
