@@ -38,4 +38,3 @@ jobs:
         user-email: github-actions-git-commit@users.noreply.github.com
         # Git message
         message: This a commit from Github Actions (auto-build)
-        branch: build # default value
