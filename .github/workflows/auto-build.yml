@@ -30,7 +30,24 @@ jobs:
   git-commit:
     runs-on: ubuntu-latest
     needs: build
+    
+    strategy:
+      matrix:
+        node-version: [12.x]  # (only run on one version since we are committing back to the repo
+    
     steps:
+    - uses: actions/checkout@master
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Build to commit
+      run: |
+        npm install
+        npm run-script build
+
     - name: Git Auto Commit
       # You may pin to the exact commit or the version.
       # uses: stefanzweifel/git-auto-commit-action@5dd17c3b53a58c1cb5eaab903826abe94765ccd6
@@ -48,7 +65,6 @@ jobs:
         commit_user_email: actions@github.com
         # Value used for the commit author. Defaults to the username of whoever triggered this workflow run.
         commit_author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-        repository: kuhlaid/html5-qrcode
         
 #       - name: Git Commit on Workflow
 #       uses: matheusalbino/git-commit@v1.1.0
