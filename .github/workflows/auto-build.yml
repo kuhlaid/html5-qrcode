@@ -26,3 +26,7 @@ jobs:
       run: |
         npm install
         npm run-script build
+        
+    - name: save updated files
+      run: |
+        git diff-index --quiet HEAD || (git commit -a -m'[bot] update files' --allow-empty && git push -f)
