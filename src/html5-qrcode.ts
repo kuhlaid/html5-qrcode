@@ -406,17 +406,17 @@ export class Html5Qrcode {
                             .catch(reject);
                     })
                     .catch((error) => {
-                        //console.log(`Error on navigator.mediaDevices.getUserMedia: ${error}`);    // #testmessage
+                        console.log(`Error on navigator.mediaDevices.getUserMedia: ${error}`);    // #testmessage
                         reject(Html5QrcodeStrings.errorGettingUserMedia(error));
                     });
             } else if (navigator.getUserMedia) {
                 if (typeof cameraIdOrConfig != "string") {
                     // TODO(mebjas): Make errors more concrete and categorizable.
-                    //console.log(`navigator.getUserMedia but cameraIdOrConfig is not string: ${Html5QrcodeStrings.onlyDeviceSupportedError()}`);    // #testmessage
+                    console.log('navigator.getUserMedia but cameraIdOrConfig is not string: Html5QrcodeStrings.onlyDeviceSupportedError()');    // #testmessage
                     throw Html5QrcodeStrings.onlyDeviceSupportedError();
                 }
                 const getCameraConfig: MediaStreamConstraints = {
-                    //console.log(`videoConstraints set to : ${videoConstraints}`);    // #testmessage
+                    console.log(`videoConstraints set to : ${JSON.stringify(videoConstraints)}`);    // #testmessage
                     video: videoConstraints
                 };
                 navigator.getUserMedia(getCameraConfig,
@@ -429,24 +429,24 @@ export class Html5Qrcode {
                             qrCodeSuccessCallback,
                             qrCodeErrorCallback!)
                             .then((_) => {
-                                //console.log(`navigator.getUserMedia(getCameraConfig) is scanning`);    // #testmessage
+                                console.log('navigator.getUserMedia(getCameraConfig) is scanning');    // #testmessage
                                 $this.isScanning = true;
                                 resolve(/* Void */ null);
 
                             })
                             .catch((error) => {
-                                //console.log(`navigator.getUserMedia(getCameraConfig) error`);    // #testmessage
+                                console.log('navigator.getUserMedia(getCameraConfig) error');    // #testmessage
                                 reject(
                                     Html5QrcodeStrings.errorGettingUserMedia(
                                         error));
 
                             });
                     }, (error) => {
-                        //console.log(`Some other error 1: ${error}`);    // #testmessage
+                        console.log(`Some other error 1: ${error}`);    // #testmessage
                         reject(Html5QrcodeStrings.errorGettingUserMedia(error));
                     });
             } else {
-                //console.log('Some other error 2: Html5QrcodeStrings.cameraStreamingNotSupported()');    // #testmessage
+                console.log('Some other error 2: Html5QrcodeStrings.cameraStreamingNotSupported()');    // #testmessage
                 reject(Html5QrcodeStrings.cameraStreamingNotSupported());
             }
         });
