@@ -340,7 +340,7 @@ export class Html5Qrcode {
                         + "it will be ignored.'",
                     /* experimental= */ true);
             } else {
-                console.log('videoConstraintsAvailableAndValid=true');    // #testmessage
+                //console.log('videoConstraintsAvailableAndValid=true');    // #testmessage
                 videoConstraintsAvailableAndValid = true;
             }
         }
@@ -360,15 +360,15 @@ export class Html5Qrcode {
         if (isShadedBoxEnabled) {
             const qrboxSize = internalConfig.qrbox!;
             if (qrboxSize < Constants.MIN_QR_BOX_SIZE) {
-                console.log("minimum size of 'config.qrbox' is"
-                + ` ${Constants.MIN_QR_BOX_SIZE}px.`);    // #testmessage
+//                 console.log("minimum size of 'config.qrbox' is"
+//                 + ` ${Constants.MIN_QR_BOX_SIZE}px.`);    // #testmessage
                 throw "minimum size of 'config.qrbox' is"
                 + ` ${Constants.MIN_QR_BOX_SIZE}px.`;
             }
 
             if (qrboxSize > width) {
-                console.log("'config.qrbox' should not be greater than the "
-                + "width of the HTML element.");    // #testmessage
+//                 console.log("'config.qrbox' should not be greater than the "
+//                 + "width of the HTML element.");    // #testmessage
                 throw "'config.qrbox' should not be greater than the "
                 + "width of the HTML element.";
             }
@@ -380,7 +380,7 @@ export class Html5Qrcode {
                     ? internalConfig.videoConstraints
                     : $this.createVideoConstraints(cameraIdOrConfig);
             if (!videoConstraints) {
-                console.log("videoConstraints should be defined");    // #testmessage
+                //console.log("videoConstraints should be defined");    // #testmessage
                 reject("videoConstraints should be defined");
                 return;
             }
@@ -403,24 +403,20 @@ export class Html5Qrcode {
                                 $this.isScanning = true;
                                 resolve(/* Void */ null);
                             })
-                    .catch(reject);
+                            .catch(reject);
                     })
-//                             .catch((error) => {
-//                                 console.log(`Error on onMediaStreamReceived: ${error}`);    // #testmessage
-//                                 reject(Html5QrcodeStrings.errorGettingUserMedia(error));
-//                             });
                     .catch((error) => {
-                        console.log(`Error on navigator.mediaDevices.getUserMedia: ${error}`);    // #testmessage
+                        //console.log(`Error on navigator.mediaDevices.getUserMedia: ${error}`);    // #testmessage
                         reject(Html5QrcodeStrings.errorGettingUserMedia(error));
                     });
             } else if (navigator.getUserMedia) {
                 if (typeof cameraIdOrConfig != "string") {
                     // TODO(mebjas): Make errors more concrete and categorizable.
-                    console.log(`navigator.getUserMedia but cameraIdOrConfig is not string: ${Html5QrcodeStrings.onlyDeviceSupportedError()}`);    // #testmessage
+                    //console.log(`navigator.getUserMedia but cameraIdOrConfig is not string: ${Html5QrcodeStrings.onlyDeviceSupportedError()}`);    // #testmessage
                     throw Html5QrcodeStrings.onlyDeviceSupportedError();
                 }
                 const getCameraConfig: MediaStreamConstraints = {
-                    console.log(`videoConstraints set to : ${videoConstraints}`);    // #testmessage
+                    //console.log(`videoConstraints set to : ${videoConstraints}`);    // #testmessage
                     video: videoConstraints
                 };
                 navigator.getUserMedia(getCameraConfig,
@@ -433,24 +429,24 @@ export class Html5Qrcode {
                             qrCodeSuccessCallback,
                             qrCodeErrorCallback!)
                             .then((_) => {
-                                console.log(`navigator.getUserMedia(getCameraConfig) is scanning`);    // #testmessage
+                                //console.log(`navigator.getUserMedia(getCameraConfig) is scanning`);    // #testmessage
                                 $this.isScanning = true;
                                 resolve(/* Void */ null);
 
                             })
                             .catch((error) => {
-                                console.log(`navigator.getUserMedia(getCameraConfig) error`);    // #testmessage
+                                //console.log(`navigator.getUserMedia(getCameraConfig) error`);    // #testmessage
                                 reject(
                                     Html5QrcodeStrings.errorGettingUserMedia(
                                         error));
 
                             });
                     }, (error) => {
-                        console.log(`Some other error 1: ${error}`);    // #testmessage
+                        //console.log(`Some other error 1: ${error}`);    // #testmessage
                         reject(Html5QrcodeStrings.errorGettingUserMedia(error));
                     });
             } else {
-                console.log(`Some other error 2: ${Html5QrcodeStrings.cameraStreamingNotSupported()}`);    // #testmessage
+                //console.log('Some other error 2: Html5QrcodeStrings.cameraStreamingNotSupported()');    // #testmessage
                 reject(Html5QrcodeStrings.cameraStreamingNotSupported());
             }
         });
