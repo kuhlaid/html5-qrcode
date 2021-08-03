@@ -403,10 +403,12 @@ export class Html5Qrcode {
                                 $this.isScanning = true;
                                 resolve(/* Void */ null);
                             })
-                            .catch((error) => {
-                                console.log(`Error on onMediaStreamReceived: ${error}`);    // #testmessage
-                                reject(Html5QrcodeStrings.errorGettingUserMedia(error));
-                            });
+                    .catch(reject);
+                    })
+//                             .catch((error) => {
+//                                 console.log(`Error on onMediaStreamReceived: ${error}`);    // #testmessage
+//                                 reject(Html5QrcodeStrings.errorGettingUserMedia(error));
+//                             });
                     .catch((error) => {
                         console.log(`Error on navigator.mediaDevices.getUserMedia: ${error}`);    // #testmessage
                         reject(Html5QrcodeStrings.errorGettingUserMedia(error));
