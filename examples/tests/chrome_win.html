@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- HTML5 barcode scanner is much more reliable -->
+    <script src="https://kuhlaid.github.io/html5-qrcode/dist/html5-qrcode.min.js"></script>
+  </head>
+
+  <body>
+    <!-- HTML5 barcdode scanner -->
+    <div id="reader" style="border: 1px solid #000;">&nbsp;</div>
+    <div>Barcode: <textarea id="QID12" rows="4" cols="25"></textarea></div>
+    <div>Error: <textarea id="QID12_err" rows="4" cols="25"></textarea></div>
+    <audio id="scanSound">
+      <source
+        src="https://www.w3schools.com/html/horse.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+    <script>
+      var objReader = jQuery("div[id='reader']");
+      var intScreenWidth = screen.width > 500 ? 500 : screen.width;
+      objReader.width(intScreenWidth); // set the width of the reader window dynamically
+
+      var objTxt = jQuery("textarea[id='QID12']");
+      objTxt.val(intScreenWidth); // testing
+
+      var objTxtErr = jQuery("textarea[id='QID12_err']");
+      var strCameraId = "";
+      // function onScanSuccess(decodedText, decodedResult) {
+      //   // Handle on success condition with the decoded text or result.
+      //   objTxt.val(decodedText);
+      //   html5QrCode.clear();
+      //   // ^ this will stop the scanner (video feed) and clear the scan area.
+      // }
+
+      // var html5QrCode = new html5QrCode("reader", {
+      //   fps: 10,
+      //   qrbox: 250
+      // });
+      // html5QrCode.render(onScanSuccess);
+
+      const html5QrCode = new Html5Qrcode("reader", {
+        formatsToSupport: [Html5QrcodeSupportedFormats.CODE_128]
+      });
+
+      //isShadedBoxEnabled
+
+      // This method will trigger user permissions
+      Html5Qrcode.getCameras()
+        .then((devices) => {
+          console.log("Looking for devices");
+          /**
+           * devices would be an array of objects of type:
+           * { id: "id", label: "label" }
+           */
+          if (devices && devices.length) {
+            strCameraId = devices[0].id;
+            // .. use this to start scanning.
+            objTxtErr.val("Camera id:" + strCameraId);
+            console.log("Camera id:" + strCameraId);
+            html5QrCode
+              .start(
+                { facingMode: { exact: "environment" } },
+                {
+                  fps: 2, // Optional, frame per seconds for qr code scanning
+                  qrbox: objReader.width() - 80 // THIS NEEDS TO BE SET bounded box UI
+                },
+                (decodedText, decodedResult) => {
+                  // do something when code is read
+                  objTxt.val(`Code matched = ${decodedText}`, decodedResult);
+                  console.log(`Code matched = ${decodedText}`, decodedResult);
+                  objTxtErr.val(`Code matched = ${decodedText}`, decodedResult);
+                  $("audio#scanSound")[0].play(); // add audio to the scanning
+                  // html5QrCode
+                  //   .stop()
+                  //   .then((ignore) => {
+                  //     // QR Code scanning is stopped.
+                  //     objTxtErr.val("QR Code scanning is stopped.");
+                  //   })
+                  //   .catch((err) => {
+                  //     objTxtErr.val("Error stopping the scanner:" + err);
+                  //   });
+                },
+                (errorMessage) => {
+                  // parse error, ignore it.
+                  objTxtErr.val("parse err:" + errorMessage);
+                  //html5QrCode.stop();
+                }
+              )
+              .catch((err) => {
+                // Start failed, handle it.
+                objTxtErr.val("Catch:" + err);
+                // html5QrCode
+                //   .stop()
+                //   .then((ignore) => {
+                //     // QR Code scanning is stopped.
+                //     objTxtErr.val("catch QR Code scanning is stopped.");
+                //   })
+                //   .catch((err) => {
+                //     objTxtErr.val("catch Error stopping the scanner:" + err);
+                //   });
+              });
+          }
+        })
+        .catch((err) => {
+          // handle err
+          objTxtErr.val("Err:" + err);
+        });
+
+      // const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+      //     /* handle success */
+      //     objTxt.val(decodedText);
+      //     html5QrCode.clear();
+      // };
+      // const config = { fps: 10, qrbox: 250 };
+      // // Select back camera or fail with `OverconstrainedError`.
+      // html5QrCode.start({ facingMode: { exact: "environment"} }, config, qrCodeSuccessCallback);
+    </script>
+
+    test 1 - should only support code 128
+  </body>
+</html>
