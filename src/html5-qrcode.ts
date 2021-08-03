@@ -429,24 +429,24 @@ export class Html5Qrcode {
                             qrCodeSuccessCallback,
                             qrCodeErrorCallback!)
                             .then((_) => {
-                                console.log('navigator.getUserMedia(getCameraConfig) is scanning');    // #testmessage
+                                // console.log('navigator.getUserMedia(getCameraConfig) is scanning');    // #testmessage
                                 $this.isScanning = true;
                                 resolve(/* Void */ null);
 
                             })
                             .catch((error) => {
-                                console.log('navigator.getUserMedia(getCameraConfig) error');    // #testmessage
+                                //console.log('navigator.getUserMedia(getCameraConfig) error');    // #testmessage
                                 reject(
                                     Html5QrcodeStrings.errorGettingUserMedia(
                                         error));
 
                             });
                     }, (error) => {
-                        console.log(`Some other error 1: ${error}`);    // #testmessage
+                        //console.log(`Some other error 1: ${error}`);    // #testmessage
                         reject(Html5QrcodeStrings.errorGettingUserMedia(error));
                     });
             } else {
-                console.log('Some other error 2: Html5QrcodeStrings.cameraStreamingNotSupported()');    // #testmessage
+                //console.log('Some other error 2: Html5QrcodeStrings.cameraStreamingNotSupported()');    // #testmessage
                 reject(Html5QrcodeStrings.cameraStreamingNotSupported());
             }
         });
