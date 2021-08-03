@@ -772,8 +772,6 @@ export class Html5Qrcode {
                             });
                         }
                     }
-                    closeActiveStreams(stream);
-                    resolve(results);
                 
                     // now we can try to get user media
                     navigator.mediaDevices.getUserMedia(
@@ -789,6 +787,8 @@ export class Html5Qrcode {
                                 stream.removeTrack(track);
                             }
                         }
+                        closeActiveStreams(stream);
+                        resolve(results);
                     })
                     .catch((err) => {
                         reject(`Failed at getCamerasFromMediaDevices() with: ${JSON.stringify(err)}`); // reject(`${err.name} : ${err.message}`);
