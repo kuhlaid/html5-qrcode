@@ -412,11 +412,11 @@ export class Html5Qrcode {
             } else if (navigator.getUserMedia) {
                 if (typeof cameraIdOrConfig != "string") {
                     // TODO(mebjas): Make errors more concrete and categorizable.
-                    console.log('navigator.getUserMedia but cameraIdOrConfig is not string: Html5QrcodeStrings.onlyDeviceSupportedError()');    // #testmessage
+                    //console.log('navigator.getUserMedia but cameraIdOrConfig is not string: Html5QrcodeStrings.onlyDeviceSupportedError()');    // #testmessage
                     throw Html5QrcodeStrings.onlyDeviceSupportedError();
                 }
                 const getCameraConfig: MediaStreamConstraints = {
-                    console.log(`videoConstraints set to : ${JSON.stringify(videoConstraints)}`);    // #testmessage
+                    //console.log('videoConstraints set to something');    // #testmessage
                     video: videoConstraints
                 };
                 navigator.getUserMedia(getCameraConfig,
