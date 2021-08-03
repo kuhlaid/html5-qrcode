@@ -760,43 +760,42 @@ export class Html5Qrcode {
     //#region Private methods for getting cameras.
     private static getCamerasFromMediaDevices(): Promise<Array<CameraDevice>> {
         return new Promise((resolve, reject) => {
-            // we need to enumerate the devices BEFORE trying to get user media
-            navigator.mediaDevices.enumerateDevices()
-                .then((devices) => {
-                    const results = [];
-                    for (const device of devices) {
-                        if (device.kind === "videoinput") {
-                            results.push({
-                                id: device.deviceId,
-                                label: device.label
-                            });
+            console.log('trying to check media devices in getCamerasFromMediaDevices()'); // #testmessage 
+            navigator.mediaDevices.getUserMedia(
+                { audio: false, video: true })
+                .then((stream) => {
+                    console.log('trying to check navigator.mediaDevices.getUserMedia in getCamerasFromMediaDevices()'); // #testmessage 
+                    // hacky approach to close any active stream if they are
+                    // active.
+                    const closeActiveStreams = (stream: MediaStream) => {
+                        const tracks = stream.getVideoTracks();
+                        for (const track of tracks) {
+                            track.enabled = false;
+                            track.stop();
+                            stream.removeTrack(track);
                         }
                     }
-                
-                    // now we can try to get user media
-                    navigator.mediaDevices.getUserMedia(
-                    { audio: false, video: true })
-                    .then((stream) => {
-                        // hacky approach to close any active stream if they are
-                        // active.
-                        const closeActiveStreams = (stream: MediaStream) => {
-                            const tracks = stream.getVideoTracks();
-                            for (const track of tracks) {
-                                track.enabled = false;
-                                track.stop();
-                                stream.removeTrack(track);
+
+                    navigator.mediaDevices.enumerateDevices()
+                        .then((devices) => {
+                            const results = [];
+                            for (const device of devices) {
+                                if (device.kind === "videoinput") {
+                                    results.push({
+                                        id: device.deviceId,
+                                        label: device.label
+                                    });
+                                }
                             }
-                        }
-                        closeActiveStreams(stream);
-                        resolve(results);
-                    })
-                    .catch((err) => {
-                        reject(`Failed at getCamerasFromMediaDevices() with: ${JSON.stringify(err)}`); // reject(`${err.name} : ${err.message}`);
-                    });
-                
+                            closeActiveStreams(stream);
+                            resolve(results);
+                        })
+                        .catch((err) => {
+                            reject(`Failed at navigator.mediaDevices.enumerateDevices() with: ${JSON.stringify(err)}`);
+                        });
                 })
                 .catch((err) => {
-                    reject(`Failed at navigator.mediaDevices.enumerateDevices() with: ${JSON.stringify(err)}`);
+                    reject(`Failed at getCamerasFromMediaDevices() with: ${JSON.stringify(err)}`); // reject(`${err.name} : ${err.message}`);
                 });
         });
     }
